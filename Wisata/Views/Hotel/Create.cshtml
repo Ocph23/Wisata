@@ -1,0 +1,236 @@
+﻿@model Wisata.DataAccess.Models.hotel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h2>Tambah Hotel</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>hotel</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KecamatanID, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "nama_kecamatan"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KecamatanID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nama_Hotel, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nama_Hotel)
+                @Html.ValidationMessageFor(model => model.Nama_Hotel)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                <input id="input-2c" class="rating" min="0" max="5" step="0.5" data-size="xs"
+                       data-symbol="&#xf005;" data-glyphicon="false" data-rating-class="rating-fa">
+            </div>
+        </div>
+      
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Jumlah_kamar, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Jumlah_kamar)
+                @Html.ValidationMessageFor(model => model.Jumlah_kamar)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Harga_Satu_Malam, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Harga_Satu_Malam)
+                @Html.ValidationMessageFor(model => model.Harga_Satu_Malam)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nama_Direktur, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nama_Direktur)
+                @Html.ValidationMessageFor(model => model.Nama_Direktur)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nomor_Telpon, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nomor_Telpon)
+                @Html.ValidationMessageFor(model => model.Nomor_Telpon)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Website, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Website)
+                @Html.ValidationMessageFor(model => model.Website)
+            </div>
+        </div>
+
+       
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    jQuery(document).ready(function () {
+        $("#input-21f").rating({
+            starCaptions: function (val) {
+                if (val < 3) {
+                    return val;
+                } else {
+                    return 'high';
+                }
+            },
+            starCaptionClasses: function (val) {
+                if (val < 3) {
+                    return 'label label-danger';
+                } else {
+                    return 'label label-success';
+                }
+            },
+            hoverOnClear: false
+        });
+
+        $('#rating-input').rating({
+            min: 0,
+            max: 5,
+            step: 1,
+            size: 'lg',
+            showClear: false
+        });
+
+        $('#btn-rating-input').on('click', function () {
+            $('#rating-input').rating('refresh', {
+                showClear: true,
+                disabled: true
+            });
+        });
+
+
+        $('.btn-danger').on('click', function () {
+            $("#kartik").rating('destroy');
+        });
+
+        $('.btn-success').on('click', function () {
+            $("#kartik").rating('create');
+        });
+
+        $('#rating-input').on('rating.change', function () {
+            alert($('#rating-input').val());
+        });
+
+
+        $('.rb-rating').rating({ 'showCaption': true, 'stars': '3', 'min': '0', 'max': '3', 'step': '1', 'size': 'xs', 'starCaptions': { 0: 'status:nix', 1: 'status:wackelt', 2: 'status:geht', 3: 'status:laeuft' } });
+    });
+
+
+
+    function initialize() {
+        var mapProp = {
+            center: new google.maps.LatLng(-2.6126519, 140.67880222222223),
+            zoom: 17,
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+        var nelat = { lat: -2.6126519, lng: 140.67880222222223 };
+        var marker = new google.maps.Marker({
+            map: map,
+            position: nelat,
+            title: 'Ocph Home'
+        });
+
+
+    }
+
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyBhMGCaraBDb4LJegqh7SJy_9815MdM4WI&sensor=false&callback=initialize";
+        document.body.appendChild(script);
+
+
+    }
+
+    window.onload = loadScript;
+
+    function ChangeHotel(item) {
+        $("#hotelName").html(item.Nama_Hotel);
+        $("#harga").html(item.Harga_Satu_Malam);
+        $("#kamar").html(item.Jumlah_kamar);
+        $("#telepon").html(item.Nomor_Telpon);
+        $("#email").html(item.Email);
+        $("#direktur").html(item.Nama_Direktur);
+    }
+
+
+    function ChangeKuliner(item) {
+        $("#kulinerName").html(item.Nama_Tempat_Kuliner);
+        $("#pemilik").html(item.Pemilik);
+        $("#tlpkuliner").html(item.Telpon);
+
+    }
+
+    function ChangeBelanja(item) {
+        $("#belanjaName").html(item.Nama_Tempat_Belanja);
+        $("#belanjaAlamat").html(item.Alamat);
+    }
+    function ChangeRumahSakit(item) {
+        $("#rsName").html(item.Nama_Rumah_sakit);
+        $("#rsAlamat").html(item.Alamat);
+    }
+
+
+    function ChangeTravel(item) {
+        $("#trvName").html(item.Nama_Travel);
+        $("#trvdirektur").html(item.Nama_Direktur);
+        $("#trvtelepon").html(item.Nomor_Telepon);
+        $("#trvemail").html(item.Email);
+        $("#trvweb").html(item.Website);
+
+
+    }
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="../Content/star-rating.css" rel="stylesheet" />
+<script src="../Scripts/jquery-1.10.2.min.js"></script>
+<script src="../Scripts/star-rating.js"></script>

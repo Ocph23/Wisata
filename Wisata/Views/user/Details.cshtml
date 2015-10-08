@@ -1,0 +1,48 @@
+﻿@model Wisata.DataAccess.Models.user
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details User</h2>
+
+<div class="col-md-8">
+    <h4>user</h4>
+	<hr />
+
+    <div class="panel">
+        <dt class="col-md-3">
+            >
+            @Html.DisplayNameFor(model => model.Id_User)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_User)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+    </div>
+
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

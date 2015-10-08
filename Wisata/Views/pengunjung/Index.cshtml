@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Wisata.DataAccess.Models.pengunjung>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Daftar Pengunjung</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Komentar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tanggal_Jam)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nama)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Komentar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tanggal_Jam)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.PengunjungID }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.PengunjungID }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PengunjungID }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

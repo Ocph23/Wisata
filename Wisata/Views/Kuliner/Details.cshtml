@@ -1,0 +1,56 @@
+﻿@model Wisata.DataAccess.Models.kuliner
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details Kuliner</h2>
+
+<div class="col-md-8">
+    <h3>@Html.DisplayFor(model => model.Nama_Tempat_Kuliner)</h3>
+	<hr />
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.KecamatanName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KecamatanName)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nama_Tempat_Kuliner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Tempat_Kuliner)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Telpon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telpon)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Pemilik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pemilik)
+        </dd>
+    </div>
+
+
+<p>
+
+    @Html.ActionLink("Edit", "Edit", new { id = Model.KulinerID }, new { @class="btn btn-primary"}) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+</p>

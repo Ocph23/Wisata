@@ -1,0 +1,45 @@
+﻿@model Wisata.DataAccess.Models.Galery
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-md-8">
+    <h2>Details Galery</h2>
+    <hr />
+
+    <div class="panel">
+            <dt class="col-md-3">
+                @Html.DisplayNameFor(model => model.ObjectID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ObjectID)
+            </dd>
+        </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Foto)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Deskripsi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deskripsi)
+        </dd>
+    </div>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.GaleryID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

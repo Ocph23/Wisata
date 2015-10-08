@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Wisata.Models.ObjectWisataView>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="row">
+    <h1>Object Wisata Jayapyra</h1>
+    <hr/>
+    @foreach(var item in Model)
+    {
+        <div class="col-lg-4">
+            <div class="well panel">
+                <div class="panel-body">
+                    <h4>@item.ObjectWisata.Nama_Objek</h4>
+                    <div class="row">
+                        <div id="@item.ObjectWisata.ObjekID" class="carousel slide">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#@item.ObjectWisata.ObjekID" data-slide-to="0" class="active"></li>
+                                <li data-target="#@item.ObjectWisata.ObjekID" data-slide-to="1"></li>
+                                <li data-target="#@item.ObjectWisata.ObjekID" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img src="/assets/example/bg_suburb.jpg" class="MainTumbImg">
+                                    <div class="container">
+                                        <div class="carousel-caption">
+                                            <h1>Bootstrap 3 Carousel Layout</h1>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <img src="http://lorempixel.com/2000/600/abstract/1" class="MainTumbImg">
+                                    <div class="container">
+                                        <div class="carousel-caption">
+                                            <h1>Changes to the Grid</h1>
+                                            <p><a class="btn btn-large btn-primary" href="#">Learn more</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <img class="MainTumbImg" src="~/Images/JayapuraCity.jpg" />
+                                    <div class="container">
+                                        <div class="carousel-caption">
+                                            <h1>Percentage-based sizing</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Controls -->
+                            <a class="left carousel-control" href="#@item.ObjectWisata.ObjekID" data-slide="prev">
+                                <span class="icon-prev"></span>
+                            </a>
+                            <a class="right carousel-control" href="#@item.ObjectWisata.ObjekID" data-slide="next">
+                                <span class="icon-next"></span>
+                            </a>
+                        </div>
+                        <!-- /.carousel -->
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <p></p>
+                    <p>
+                        @Html.ActionLink("Details", "Index", "DetailWisata", new { id = item.ObjectWisata.ObjekID}, new { @class = "btn btn-lg btn-primary" })
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    }
+</div>

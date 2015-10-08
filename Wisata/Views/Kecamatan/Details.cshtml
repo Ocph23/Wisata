@@ -1,0 +1,45 @@
+﻿@model Wisata.DataAccess.Models.kecamatan
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details Kecamatan</h2>
+
+<div class="col-md-8">
+    <h4>kecamatan</h4>
+    <hr />
+
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Id_Kecamatan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Kecamatan)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="=col-md-3">
+            @Html.DisplayNameFor(model => model.Nama_Kecamatan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Kecamatan)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Kecamatan }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

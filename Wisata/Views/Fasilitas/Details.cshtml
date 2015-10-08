@@ -1,0 +1,37 @@
+﻿@model Wisata.DataAccess.Models.Fasilitas
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details Fasilitas</h2>
+
+<div class=" col-md-8">
+    <h4>Fasilitas</h4>
+	<hr />
+
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.ObjectId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ObjectId)
+        </dd>
+     </div>
+
+    <div class="panel">
+        <dt class=" col-md-3">
+            @Html.DisplayNameFor(model => model.Nama_Fasilitas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Fasilitas)
+        </dd>
+    </div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FasilitasID }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-succsess" })
+</p>

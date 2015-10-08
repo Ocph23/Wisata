@@ -1,0 +1,68 @@
+﻿@model Wisata.DataAccess.Models.objek
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>objek</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.KecamatanID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "nama_kecamatan"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KecamatanID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nama_Objek, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nama_Objek)
+                @Html.ValidationMessageFor(model => model.Nama_Objek)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Jenis, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Jenis)
+                @Html.ValidationMessageFor(model => model.Jenis)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lintang, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Lintang)
+                @Html.ValidationMessageFor(model => model.Lintang)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bujur, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bujur)
+                @Html.ValidationMessageFor(model => model.Bujur)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <p> @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+</div>

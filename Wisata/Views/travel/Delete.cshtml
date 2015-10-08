@@ -1,0 +1,83 @@
+﻿@model Wisata.DataAccess.Models.travel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Hapus Travel</h2>
+
+<h3>Apakah Anda Yakin Akan Menghapus File ini?</h3>
+
+<div class="col-md-8">
+    <h4>travel</h4>
+    <hr />
+
+   
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.KecamatanName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KecamatanName)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nama_Travel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Travel)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nomor_Telepon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nomor_Telepon)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nama_Direktur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Direktur)
+        </dd>
+    </div>
+
+
+
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+        </div>
+    }
+</div>

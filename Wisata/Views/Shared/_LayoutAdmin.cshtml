@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Dashboar.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Admin", "Index", "Administrator")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="#">Menu <span class="sr-only">(current)</span></a></li>
+                    <li>@Html.ActionLink("Kecamatan", "Index", "Kecamatan")</li>
+                    <li>@Html.ActionLink("Objek Wisata", "Index", "Objek")</li>
+                    <li>@Html.ActionLink("Hotel","Index","Hotel")</li>
+                    <li>@Html.ActionLink("Kuliner", "Index", "Kuliner")</li>
+                    <li>@Html.ActionLink("Tempat Belanja", "Index", "Belanja")</li>
+                    <li>@Html.ActionLink("Fasilitas","Index","Fasilitas")</li>
+                    <li>@Html.ActionLink("Rumah Sakit","Index","rumah_sakit")</li>
+                    <li>@Html.ActionLink("Transportasi","Index","transportasi")</li>
+                    <li>@Html.ActionLink("Travel","Index","travel")</li>
+                    <li>@Html.ActionLink("Galery", "Index", "galery")</li>
+                    <li>@Html.ActionLink("Pengunjung", "Index", "pengunjung")</li>
+                    <li>@Html.ActionLink("Users","Index","user")</li>
+                </ul>
+
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+                <div class="table-responsive">
+                    <div class="container body-content">
+
+                        @RenderBody()
+                        <hr />
+                    </div>
+
+                </div>
+            </div>
+
+
+            
+            </div>
+        </div>
+    <div class="row">
+        <footer>
+            <!--p>&copy; @DateTime.Now.Year - My ASP.NET Application</!--p-->
+        </footer>
+    </div>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+</body>
+</html>

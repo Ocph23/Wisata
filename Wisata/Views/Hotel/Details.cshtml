@@ -1,0 +1,100 @@
+﻿@model Wisata.DataAccess.Models.hotel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details Hotel</h2>
+
+<div class="col-md-8">
+    <h4>hotel</h4>
+	<hr />
+
+    <div class="panel">
+            <dt class="col-md-4 ">
+                @Html.DisplayNameFor(model => model.KecamatanName)
+            </dt>
+
+            <dd >
+                @Html.DisplayFor(model => model.KecamatanName)
+            </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4 ">
+            @Html.DisplayNameFor(model => model.Nama_Hotel)
+        </dt>
+
+        <dd >
+            @Html.DisplayFor(model => model.Nama_Hotel)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Jumlah_kamar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jumlah_kamar)
+        </dd>
+    </div>
+
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Harga_Satu_Malam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Harga_Satu_Malam)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nama_Direktur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Direktur)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nomor_Telpon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nomor_Telpon)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+    </div>
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.HotelID }, new {@class="btn btn-primary" }) |
+        @Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-info" })
+    </p>
+
+
+</div>

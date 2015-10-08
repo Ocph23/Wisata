@@ -1,0 +1,66 @@
+﻿@model Wisata.DataAccess.Models.kuliner
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Tambah Kuliner</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>kuliner</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KecamatanID, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "nama_kecamatan"), new { @class = "form-control"  })
+                @Html.ValidationMessageFor(model => model.KecamatanID)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nama_Tempat_Kuliner, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nama_Tempat_Kuliner)
+                @Html.ValidationMessageFor(model => model.Nama_Tempat_Kuliner)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Telpon, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Telpon)
+                @Html.ValidationMessageFor(model => model.Telpon)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pemilik, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Pemilik)
+                @Html.ValidationMessageFor(model => model.Pemilik)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+ <p>@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })</p>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

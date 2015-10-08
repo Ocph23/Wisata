@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Wisata.DataAccess.Models.tempat_belanja>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Daftar Tempat Belanja</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.KecamatanName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nama_Tempat_Belanja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Alamat)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.KecamatanName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nama_Tempat_Belanja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Alamat)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_tempat_belanja }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_tempat_belanja }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_tempat_belanja }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

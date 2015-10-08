@@ -1,0 +1,55 @@
+﻿@model Wisata.DataAccess.Models.pengunjung
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details pengunjung</h2>
+
+<div class="col-md-8">
+    <h4>pengunjung</h4>
+	<hr />
+
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Nama)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Komentar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Komentar)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Tanggal_Jam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tanggal_Jam)
+        </dd>
+    </div>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PengunjungID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

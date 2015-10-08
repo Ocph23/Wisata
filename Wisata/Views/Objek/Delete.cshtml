@@ -1,0 +1,73 @@
+﻿@model Wisata.DataAccess.Models.objek
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Hapus Objek Wisata</h2>
+
+<h3>Apakah Anda Yakin Akan Menghapus File ini?</h3>
+
+<div class="col-md-8">
+    <h3>@Html.DisplayFor(model => model.Nama_Objek)</h3>
+    <hr />
+
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.KecamatanName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KecamatanName)
+        </dd>
+     </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nama_Objek)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Objek)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Jenis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jenis)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Lintang)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lintang)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class=" col-md-4">
+            @Html.DisplayNameFor(model => model.Bujur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bujur)
+        </dd>
+    </div>
+
+
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+             @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+
+        </div>
+    }
+</div>

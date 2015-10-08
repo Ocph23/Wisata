@@ -1,0 +1,46 @@
+﻿@model Wisata.DataAccess.Models.rumah_sakit
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details Rumah Sakit</h2>
+
+<div class="col-md-8">
+	<hr />
+
+   
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.KecamatanName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KecamatanName)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Nama_Rumah_sakit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Rumah_sakit)
+        </dd>
+    </div>
+    <div class="panel">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Alamat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alamat)
+        </dd>
+    </div>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Rumah_SakitID }, new  {@class="btn btn-primary" }) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+</p>

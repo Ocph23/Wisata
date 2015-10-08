@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Wisata.DataAccess.Models.transportasi>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Tambah Transportasi</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Objek)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Objek)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TransportasiID }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.TransportasiID }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.TransportasiID }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Wisata.DataAccess.Models.travel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Daftar Travel</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.KecamatanName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nama_Travel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nomor_Telepon)
+        </th>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Nama_Direktur)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.KecamatanName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nama_Travel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nomor_Telepon)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Nama_Direktur)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TravelID}, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TravelID }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TravelID }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

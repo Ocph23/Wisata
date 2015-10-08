@@ -1,0 +1,118 @@
+﻿@model Wisata.DataAccess.Models.hotel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="col-md-8">
+    <h2>Hapus Hotel</h2>
+
+    <h3>    Apakah Anda Yakin Akan Menghapus File Ini?</h3>
+    <div class="row">
+    </div>
+
+        <div class="panel">
+            <dt class="col-md-3 ">
+                @Html.DisplayNameFor(model => model.KecamatanName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.KecamatanName)
+            </dd>
+        </div>
+        <div class="panel">
+            <dt class="col-md-3 ">
+                @Html.DisplayNameFor(model => model.Nama_Hotel)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nama_Hotel)
+            </dd>
+        </div>
+
+        <div class="panel">
+            <dt class="col-md-3">
+                @Html.DisplayNameFor(model => model.Jumlah_kamar)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Jumlah_kamar)
+            </dd>
+        </div>
+
+
+        <div class="panel">
+            <dt class="col-md-3">
+                @Html.DisplayNameFor(model => model.Harga_Satu_Malam)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Harga_Satu_Malam)
+            </dd>
+        </div>
+
+        <div class="panel">
+            <dt class="col-md-3">
+                @Html.DisplayNameFor(model => model.Nama_Direktur)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nama_Direktur)
+            </dd>
+       </div>
+        
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Nama_Direktur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nama_Direktur)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Nomor_Telpon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nomor_Telpon)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </div>
+
+    <div class="panel">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+    </div>
+
+       
+
+
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+        </div>
+    }
+</div>
