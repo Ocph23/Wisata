@@ -1,77 +1,324 @@
-﻿@model IEnumerable<Wisata.Models.ObjectWisataView>
+﻿@using HtmlAgilityPack
+@using Wisata.DataAccess.Models
+
+@model IEnumerable<Wisata.DataAccess.Models.objek>
+
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Wisata Jayapura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<section id="slide-show">
+    <div id="slider" class="sl-slider-wrapper">
+        <!--Slider Items-->
+        <div class="sl-slider">
+            <!--Slider Item1-->
+            <div class="sl-slide item1" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+                <div class="sl-slide-inner">
+                  
+                    <div class="container">
+                        <h2 >Selamat Datang</h2>
+                        <h3 class="gap">Situs Dinas Pariwisata Kota Jayapura</h3>
+                    </div>
+                </div>
+            </div>
+            <!--/Slider Item1-->
+            <!--Slider Item2-->
+            <div class="sl-slide item2" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
+                <div class="sl-slide-inner">
+                    <div class="container">
+                     
+                        <h2>Selamat Datang</h2>
+                        <h3 class="gap">Situs Dinas Pariwisata Kota Jayapura</h3>
+                    </div>
+                </div>
+            </div>
+            <!--Slider Item2-->
+            <!--Slider Item3-->
+            <div class="sl-slide item3" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+                <div class="sl-slide-inner">
+                    <div class="container">
+                        <img class="pull-right" src="" alt="" />
+                        <h2>Selamat Datang</h2>
+                        <h3 class="gap">Situs Dinas Pariwisata Kota Jayapura</h3>
+                    </div>
+                </div>
+            </div>
+            <!--Slider Item3-->
+        </div>
+        <!--/Slider Items-->
+        <!--Slider Next Prev button-->
+        <nav id="nav-arrows" class="nav-arrows">
+            <span class="nav-arrow-prev"><i class="icon-angle-left"></i></span>
+            <span class="nav-arrow-next"><i class="icon-angle-right"></i></span>
+        </nav>
+        <!--/Slider Next Prev button-->
+    </div>
+    <!-- /slider-wrapper -->
+</section>
 
 
-<div class="row">
-    <h1>Object Wisata Jayapyra</h1>
-    <hr/>
-    @foreach(var item in Model)
+<section class="main-info">
+    <div class="container">
+        <div class="row-fluid">
+            <marquee width="100%">
+                <h3 style="color:blueviolet">Kunjungi Festival Humbold , mulai Tanggal 1 Agustus - 4 Agustus 2016</h3>
+                <div class="gap"></div>
+            </marquee>
+
+        </div>
+    </div>
+</section>
+
+<div class="main-info">
+  
+
+  <section  class="container main col-md-12">
+        <div class="row-fluid">
+            <div class="col-md-8">
+                <div class="blog">
+                      @foreach (var artikel in ViewBag.Artikels)
+                    {
+                        
+                    <div class="blog-item well" style="height:225px">
+
+
+
+                      <a href="/Artikel/Details/@artikel.ID"><h2>@artikel.Judul</h2></a>
+                            <div class="blog-meta clearfix">
+                                <p class="pull-left">
+                                    <i class="fa fa-user"></i> by <a href="#">@artikel.Author</a>  <i class="fa fa-calendar"></i> @artikel.Tanggal.ToLongDateString()
+                                </p>
+                                <p class="pull-right"><i class="icon-comment pull"></i> <a href="blog-item.html#comments"></a></p>
+                            </div>
+                            <div style="width:100px">
+                                @Html.Raw(artikel.Image)
+                            </div>
+                            <p>@artikel.Description</p>
+                             @Html.Raw(artikel.Content)
+
+
+
+
+                            @Html.ActionLink("Read More", "Details", "Artikel", new { id = @artikel.ID }, null)
+                      
+
+
+
+                      
+
+                    </div>
+                    }
+
+                    <!-- End Blog Item -->
+                    <!-- End Blog Item -->
+                    <div class="gap"></div>
+
+                </div>
+            </div>
+    
+            <aside class="col-md-4">
+                <div class="widget search" ng-app="app" ng-controller="appcontroller" ng-init="Init(@Json.Encode(Model))">
+
+
+                    <form >
+
+                        <select style="margin:10px" ng-model="KecID" class="form-control"  id="kec" name="kec">
+                            <option value="">Pilih Kecamatan</option>
+                            @foreach (var i in ViewBag.Kecamatans)
+                            {
+                                var item = (Wisata.DataAccess.Models.kecamatan)i;
+                                <option value="@item.Id_Kecamatan">@item.Nama_Kecamatan</option>
+                            }
+
+
+                        </select>
+
+
+
+                        <select style="margin:10px" ng-model="Jenis" class="form-control"  id="jenis" name="jenis">
+                            <option style="color:darkgray" value="">Jenis Wisata</option>
+                            <option value="Alam">Wisata Alam</option>
+                            <option value="Peternakan">Wisata Peternakan</option>
+                            <option value="Bersejarah">Wisata Bersejarah</option>
+
+                        </select>
+                    </form>
+
+
+                    <div style="margin:10px" class="well">
+                       <h4>Result</h4>
+                        <div ng-repeat="item in Objects | filter:{KecamatanID:KecID , Jenis:Jenis} ">
+
+
+                            <div ng-if="KecID>0">
+                                <a href="~/DetailWisata/Index/{{item.ObjekID }}">{{item.Nama_Objek}}</a>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3>Kategori Wisata</h3>
+                    </div>
+                    <div class="panel-body">
+                        @{
+    var category = Model.GroupBy(O => O.Jenis).ToList();
+    foreach (var item in category)
     {
-        <div class="col-lg-4">
-            <div class="well panel">
-                <div class="panel-body">
-                    <h4>@item.ObjectWisata.Nama_Objek</h4>
-                    <div class="row">
-                        <div id="@item.ObjectWisata.ObjekID" class="carousel slide">
-                            <!-- Indicators -->
-                            <ol class="carousel-indicators">
-                                <li data-target="#@item.ObjectWisata.ObjekID" data-slide-to="0" class="active"></li>
-                                <li data-target="#@item.ObjectWisata.ObjekID" data-slide-to="1"></li>
-                                <li data-target="#@item.ObjectWisata.ObjekID" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="item active">
-                                    <img src="/assets/example/bg_suburb.jpg" class="MainTumbImg">
-                                    <div class="container">
-                                        <div class="carousel-caption">
-                                            <h1>Bootstrap 3 Carousel Layout</h1>
+        var cat = item.FirstOrDefault();
+                    <div class="panel panel-default" style="margin:10px">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#@cat.ObjekID">@cat.Jenis</a>
+                            </h4>
+                        </div>
+                        <div id="@cat.ObjekID" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <ul>
+                                            @foreach (var i in item)
+                                            {
 
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="item">
-                                    <img src="http://lorempixel.com/2000/600/abstract/1" class="MainTumbImg">
-                                    <div class="container">
-                                        <div class="carousel-caption">
-                                            <h1>Changes to the Grid</h1>
-                                            <p><a class="btn btn-large btn-primary" href="#">Learn more</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <img class="MainTumbImg" src="~/Images/JayapuraCity.jpg" />
-                                    <div class="container">
-                                        <div class="carousel-caption">
-                                            <h1>Percentage-based sizing</h1>
-                                        </div>
+                                                <li>@Html.ActionLink(i.Nama_Objek, "Index", "DetailWisata", new { id = i.ObjekID }, null)</li>
+                                            }
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Controls -->
-                            <a class="left carousel-control" href="#@item.ObjectWisata.ObjekID" data-slide="prev">
-                                <span class="icon-prev"></span>
-                            </a>
-                            <a class="right carousel-control" href="#@item.ObjectWisata.ObjekID" data-slide="next">
-                                <span class="icon-next"></span>
-                            </a>
                         </div>
-                        <!-- /.carousel -->
+                    </div>
+
+                            }
+                        }
+
 
                     </div>
+
                 </div>
-                <div class="panel-footer">
-                    <p></p>
-                    <p>
-                        @Html.ActionLink("Details", "Index", "DetailWisata", new { id = item.ObjectWisata.ObjekID}, new { @class = "btn btn-lg btn-primary" })
-                    </p>
-                </div>
-            </div>
+
+            </aside>
+
+
+
+
+
+
+
+        <div class=" col-md-9">
+         
+         
         </div>
+        <div class="col-md-3">
         
-    }
+
+        </div>
 </div>
+
+
+
+
+        <!--Services-->
+        <section id="services">
+            <div class="container">
+                <h3>Daftar Artikel</h3> 
+                <div class="row">
+                    <div class="panel panel-warning"></div>
+                    <div class="panel-heading">
+                       
+                    </div>
+                    <ul>
+                        @foreach (var item in ViewBag.Artikels)
+                        {
+                            var i = item as Wisata.DataAccess.Models.Artikel;
+
+                            <li>@Html.ActionLink(i.Judul, "Details", "Artikel", new { id = @i.ID }, null)</li>
+
+                        }
+                    </ul>
+
+                </div>
+
+
+            </div>
+        </section>
+        <!--/Services-->
+        <section id="recent-works">
+            <div class="container">
+                <div class="center">
+                    <h3>Tinggalkan Pesan / Komentar</h3>
+                </div>
+                @using (Html.BeginForm("Create", "Pengunjung"))
+                {
+                    var mod = new Wisata.DataAccess.Models.pengunjung();
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true)
+                        <br />
+                        
+
+                        <div class="form-group">
+                            @Html.Label("Email", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("Email", "mod", "Email")
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Nama", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("Nama", "mod", "Nama")
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Komentar", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <textarea name="Komentar" id="Komentar" style="width:400px; height:200px"></textarea>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                }
+               
+            </div>
+        </section>
+
+
+
+
+        <script src="~/Scripts/angular.min.js"></script>
+
+        <script type="text/javascript">
+    var app = angular.module('app', [])
+    .controller('appcontroller', function($scope)
+    {
+        $scope.Init = function (param) {
+            $scope.Objects = param;
+        };
+    });
+        </script>
+
+
+
+
+
+
+
+

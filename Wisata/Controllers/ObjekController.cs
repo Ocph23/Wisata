@@ -12,12 +12,19 @@ namespace Wisata.Controllers
         // GET: /Objek/
         public ActionResult Index()
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = this.GetModel();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = this.GetModel();
+                    return View(result);
+                }
 
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
+           
 
         }
 
@@ -25,10 +32,17 @@ namespace Wisata.Controllers
         // GET: /Objek/Details/5
         public ActionResult Details(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = this.GetModel().Where(O => O.ObjekID == id).FirstOrDefault();
-                return View(result);
+                using (var db = new OcphDbContext())
+                {
+                    var result = this.GetModel().Where(O => O.ObjekID == id).FirstOrDefault();
+                    return View(result);
+                }
+            }
+            else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
             }
 
         }
@@ -37,8 +51,12 @@ namespace Wisata.Controllers
         // GET: /Objek/Create
         public ActionResult Create()
         {
-            ViewBag.Kecamatans = this.GetKecamatans();
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                ViewBag.Kecamatans = this.GetKecamatans();
+                return View();
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -46,32 +64,39 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Create(DataAccess.Models.objek model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using (var db = new OcphDbContext())
+                try
                 {
-                    var res = db.objeks.Insert(model);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        var res = db.objeks.Insert(model);
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
         // GET: /Objek/Edit/5
         public ActionResult Edit(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = this.GetModel().Where(O => O.ObjekID == id).FirstOrDefault();
-                ViewBag.Kecamatans = this.GetKecamatans();
-                return View(result);
-            }
-
+                using (var db = new OcphDbContext())
+                {
+                    var result = this.GetModel().Where(O => O.ObjekID == id).FirstOrDefault();
+                    ViewBag.Kecamatans = this.GetKecamatans();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -79,31 +104,39 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Edit(int id, DataAccess.Models.objek model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add update logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.objeks.Update(O => new { O.ObjekID,O.KecamatanID,O.Nama_Objek,O.Lintang,O.Jenis }, model, O => O.ObjekID == id);
+                    // TODO: Add update logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.objeks.Update(O => new { O.ObjekID, O.KecamatanID, O.Nama_Objek, O.Lintang, O.Bujur, O.Jenis, O.Description }, model, O => O.ObjekID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
         // GET: /Objek/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = this.GetModel().Where(O => O.ObjekID == id).FirstOrDefault();
-                ViewBag.Kecamatans = this.GetKecamatans();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = this.GetModel().Where(O => O.ObjekID == id).FirstOrDefault();
+                    ViewBag.Kecamatans = this.GetKecamatans();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -111,19 +144,23 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add delete logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.objeks.Delete(O => O.ObjekID == id);
+                    // TODO: Add delete logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.objeks.Delete(O => O.ObjekID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         public object GetKecamatans()
@@ -144,7 +181,7 @@ namespace Wisata.Controllers
                              join k in db.kecamatans.Select().AsEnumerable() on h.KecamatanID equals k.Id_Kecamatan
                              select new DataAccess.Models.objek
                              {
-                                 KecamatanID = h.KecamatanID,  KecamatanName= k.Nama_Kecamatan,
+                                 KecamatanID = h.KecamatanID,  KecamatanName= k.Nama_Kecamatan, Description=h.Description,
                                 Bujur =h.Bujur, Jenis=h.Jenis, Lintang = h.Lintang, Nama_Objek=h.Nama_Objek,ObjekID=h.ObjekID
                              };
                 return result.ToList();

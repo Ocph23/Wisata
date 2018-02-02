@@ -12,11 +12,18 @@ namespace Wisata.Controllers
         // GET: /pengunjung/
         public ActionResult Index()
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.pengunjungs.Select().ToList();
-                return View(result);
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.pengunjungs.Select().ToList();
+                    return View(result);
+                }
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
             }
+         
 
 
         }
@@ -25,11 +32,15 @@ namespace Wisata.Controllers
         // GET: /Pengunjung/Details/5
         public ActionResult Details(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.pengunjungs.Where(O => O.PengunjungID == id).FirstOrDefault();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.pengunjungs.Where(O => O.PengunjungID == id).FirstOrDefault();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
 
         }
 
@@ -37,7 +48,11 @@ namespace Wisata.Controllers
         // GET: /Pengunjung/Create
         public ActionResult Create()
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -45,30 +60,36 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Create(DataAccess.Models. pengunjung model)
         {
-            try
-            {
-                using (var db = new OcphDbContext())
+            
+                try
                 {
-                    var res = db.pengunjungs.Insert(model);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        model.Tanggal_Jam = DateTime.Now;
+                        var res = db.pengunjungs.Insert(model);
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                    return RedirectToAction("Index","Home");
+                }
+                catch
+                {
+                    return View();
+                }
+       }
 
         //
         // GET: /Pengunjung/Edit/5
         public ActionResult Edit(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.pengunjungs.Where(O => O.PengunjungID == id).FirstOrDefault();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.pengunjungs.Where(O => O.PengunjungID == id).FirstOrDefault();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
 
         }
 
@@ -77,30 +98,38 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Edit(int id, DataAccess.Models.pengunjung model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add update logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.pengunjungs.Update(O => new { O.Email, O.Komentar, O.Nama, O.Tanggal_Jam, O.PengunjungID }, model, O => O.PengunjungID == id);
+                    // TODO: Add update logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.pengunjungs.Update(O => new { O.Email, O.Komentar, O.Nama, O.Tanggal_Jam, O.PengunjungID }, model, O => O.PengunjungID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
         // GET: /Pengunjung/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.pengunjungs.Where(O => O.PengunjungID == id).FirstOrDefault();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.pengunjungs.Where(O => O.PengunjungID == id).FirstOrDefault();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -108,19 +137,23 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add delete logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.pengunjungs.Delete(O => O.PengunjungID == id);
+                    // TODO: Add delete logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.pengunjungs.Delete(O => O.PengunjungID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
     }
 }

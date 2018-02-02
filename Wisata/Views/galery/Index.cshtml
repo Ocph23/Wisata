@@ -1,46 +1,55 @@
-﻿@model IEnumerable<Wisata.DataAccess.Models.Galery>
+﻿@model Wisata.DataAccess.Models.FileUpload
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Galery Foto";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<script src="~/Scripts/angular.min.js"></script>
+<h2>Galery Foto</h2>
 
-<h2>Daftar Galery</h2>
+<div ng-app="GaleryApp" ng-controller="GaleryController">
 
-<p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ObjectID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Foto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Deskripsi)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Tambah Foto", "Create","", new { @class = "btn btn-primary" }) 
+    </p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ObjectID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Foto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Deskripsi)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.GaleryID }, new { @class = "btn btn-primary" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.GaleryID }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.GaleryID }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+    <select class="form-control" data-val="true" ng-change="OnSelect(ObjId)" ng-model="ObjId" data-val-number="The field ObjeckId must be a number." data-val-required="The ObjeckId field is required." id="ObjeckId" name="ObjeckId">
+       @foreach (var item in ViewBag.Objeks)
+       {
+           var obj = item as Wisata.DataAccess.Models.objek;
+            <option value="@obj.ObjekID">@obj.Nama_Objek</option>
+       }
+    </select>
+    
+    <div class="row">
+        <br />
+        <div class="col-md-12" ng-repeat="Image in Images">
+            <div class="col-md-2 well" style="margin:5px">
+                <img data-ng-src="data:image/JPEG;base64,{{Image.FileData}}" height="150">
+                @{
+                    var url = Url.Action("Delete", "galery", new { id = "{{id=Image.Id}}" });
+                    url = HttpUtility.UrlDecode(url);
+                }
+                <a class="btn btn-danger" data-ng-href="@url">Delete</a>
+            </div>
 
-</table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var app = angular.module("GaleryApp", []);
+    app.controller("GaleryController", function ($scope, $http) {
+        $scope.OnSelect = function ($parameter)
+        {
+            var id = $parameter;
+            $http.get('http://localhost:1557/galery/GetPictures/'+id)
+            .success(function (response) {
+                $scope.Images = response;
+               
+               
+            });
+           
+        }
+    });
+</script>

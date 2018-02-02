@@ -21,11 +21,29 @@ namespace Wisata
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/main.js",
+                      "~/Scripts/jquery.ba-cond.min.js",
+                          "~/Scripts/jquery.slitslider.js",
+
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.css","~/Content/bootstrap-responsive.min.css",
+                      "~/fonts/font-awesome/css/font-awesome.min.css", "~/Content/main.css",
+                      "~/Content/sl-slide.css",
                       "~/Content/site.css"));
+
+
+            bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
+                     "~/Scripts/dropzone/dropzone.js"));
+            
+            
+            
+            bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
+                     "~/Scripts/dropzone/css/basic.css",
+                     "~/Scripts/dropzone/css/dropzone.css"));
+
+
         }
     }
 }

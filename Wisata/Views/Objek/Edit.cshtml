@@ -1,4 +1,6 @@
 ﻿@model Wisata.DataAccess.Models.objek
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckeditor/config.js"></script>
 
 @{
     ViewBag.Title = "Edit";
@@ -21,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.KecamatanID, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "nama_kecamatan"), new { @class = "form-control" })
+                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "nama_kecamatan"), new { @class = "form-control", @style="width:200px" })
                 @Html.ValidationMessageFor(model => model.KecamatanID)
             </div>
         </div>
@@ -29,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nama_Objek, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nama_Objek)
+                @Html.EditorFor(model => model.Nama_Objek, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Nama_Objek)
             </div>
         </div>
@@ -59,6 +61,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @id = "contentid" })
+            @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div >
+
+        <div  class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-success" />
             </div>
@@ -75,3 +85,16 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+
+
+<script type="text/javascript">
+    CKEDITOR.replace("contentid");
+    CKEDITOR.editorConfig = function (config) {
+        // Define changes to default configuration here. For example:
+        // config.language = 'fr';
+        // config.uiColor = '#AADC6E';
+    };
+
+</script>

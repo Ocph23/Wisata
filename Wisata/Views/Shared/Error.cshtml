@@ -3,7 +3,27 @@
 @{
     ViewBag.Title = "Error";
 }
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<div class="container fill" >
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+    <div class="col-md-12" style="">
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+</div>
 
+<style type="text/css">
+    .fill {
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-image: url('../../Images/Etsy Error_Cropped.jpg');
+       
+    }
+</style>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Wisata.DataAccess.Models
 {
@@ -39,5 +40,11 @@ namespace Wisata.DataAccess.Models
         [DbColumn("bujur")]
         [DisplayName("BUJUR")]
         public string Bujur { get; set; }
+
+
+                 [AllowHtml]
+        [DbColumn("Deskripsi")]
+        [DisplayName("DESKRIPSI")]
+        public string Description { get; set; }
     }
 }

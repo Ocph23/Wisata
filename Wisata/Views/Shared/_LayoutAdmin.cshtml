@@ -3,9 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title - DINAS KEBUDAYAAN &amp; PARIWISATA KOTA JAYAPURA</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Content/main.css" rel="stylesheet" />
+    <link href="/Content/sl-slide.css" rel="stylesheet" />
+    <link href="/Content/site.css" rel="stylesheet" />
+
+    <script src="/Scripts/modernizr-2.6.2.js"></script>
     <link href="~/Content/Dashboar.css" rel="stylesheet" />
 </head>
 <body>
@@ -17,12 +23,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Admin", "Index", "Administrator")</li>
+                   
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -34,6 +39,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
+
                 <ul class="nav nav-sidebar">
                     <li class="active"><a href="#">Menu <span class="sr-only">(current)</span></a></li>
                     <li>@Html.ActionLink("Kecamatan", "Index", "Kecamatan")</li>
@@ -41,9 +47,8 @@
                     <li>@Html.ActionLink("Hotel","Index","Hotel")</li>
                     <li>@Html.ActionLink("Kuliner", "Index", "Kuliner")</li>
                     <li>@Html.ActionLink("Tempat Belanja", "Index", "Belanja")</li>
-                    <li>@Html.ActionLink("Fasilitas","Index","Fasilitas")</li>
+                    <li>@Html.ActionLink("Artikel","Index","Artikel")</li>
                     <li>@Html.ActionLink("Rumah Sakit","Index","rumah_sakit")</li>
-                    <li>@Html.ActionLink("Transportasi","Index","transportasi")</li>
                     <li>@Html.ActionLink("Travel","Index","travel")</li>
                     <li>@Html.ActionLink("Galery", "Index", "galery")</li>
                     <li>@Html.ActionLink("Pengunjung", "Index", "pengunjung")</li>
@@ -67,13 +72,17 @@
             
             </div>
         </div>
-    <div class="row">
-        <footer>
-            <!--p>&copy; @DateTime.Now.Year - My ASP.NET Application</!--p-->
-        </footer>
-    </div>
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")
-            @RenderSection("scripts", required: false)
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+
+    <script src="/Scripts/bootstrap.js"></script>
+    <script src="/Scripts/main.js"></script>
+    <script src="/Scripts/jquery.ba-cond.min.js"></script>
+    <script src="/Scripts/jquery.slitslider.js"></script>
+    <script src="/Scripts/respond.js"></script>
+
+
+ @RenderSection("scripts", required: false)
+    
 </body>
+
 </html>

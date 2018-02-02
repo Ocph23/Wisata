@@ -11,7 +11,13 @@ namespace Wisata.Controllers
         // GET: Administrator
         public ActionResult Index()
         {
-            return View();
+            if (Request.IsAuthenticated && new Users(User.Identity.Name).IsAdmin)
+            {
+                return View();
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Wisata.DataAccess.Models
         [DisplayName("ID")]
         public int PengunjungID { get; set; }
 
-        [DbColumn("e-mail")]
+        [DbColumn("email")]
         [DisplayName("E-MAIL")]
         public string Email { get; set; }
 
@@ -27,7 +27,7 @@ namespace Wisata.DataAccess.Models
         [DisplayName("KOMENTAR")]
         public string Komentar { get; set; }
 
-        [DbColumn("tanggal&jam")]
+        [DbColumn("tanggal_jam")]
         [DisplayName("TANGGAL DAN JAM")]
         public DateTime Tanggal_Jam { get; set; }
     }

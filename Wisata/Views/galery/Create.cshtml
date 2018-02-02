@@ -1,53 +1,53 @@
-﻿@model Wisata.DataAccess.Models.Galery
-
+﻿@model Wisata.DataAccess.Models.FileUpload
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+<link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" />
+<script src="~/Scripts/dropzone/dropzone.min.js"></script>
 <h2>Tambah Galery</h2>
 
-@using (Html.BeginForm()) 
+
+@using (Html.BeginForm("UploadPhoto", "galery", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "dropzoneForm", style = "width: 50px; background: none; border: none;" }))
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Galery</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+    @Html.DropDownListFor(model => model.ObjeckId, new SelectList(ViewBag.Objeks, "ObjekID", "Nama_Objek"), new { @class = "form-control" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ObjectID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ObjectID)
-                @Html.ValidationMessageFor(model => model.ObjectID)
-            </div>
+    <br />
+   <div class="fallback">
+            <input name="file" type="file" multiple />
+            <input type="submit" value="Upload" />
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Foto, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Foto)
-                @Html.ValidationMessageFor(model => model.Foto)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Deskripsi, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Deskripsi)
-                @Html.ValidationMessageFor(model => model.Deskripsi)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
-            </div>
-        </div>
-    </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+<script type="text/javascript">
+    //File Upload response from the server
+    Dropzone.options.dropzoneForm = {
+        maxFiles: 10,
+        init: function () {
+            this.on("maxfilesexceeded", function (data) {
+                var res = eval('(' + data.xhr.responseText + ')');
+            });
+            this.on("addedfile", function (file) {
+                // Create the remove button
+                var removeButton = Dropzone.createElement("<button class='btn btn-danger'>Hapus</button>");
+                // Capture the Dropzone instance as closure.
+                var _this = this;
+                // Listen to the click event
+                removeButton.addEventListener("click", function (e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Remove the file preview.
+                    _this.removeFile(file);
+                    // If you want to the delete the file on the server as well,
+                    // you can do the AJAX request here.
+                });
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+            });
+        }
+    };
+
+
+</script>

@@ -11,6 +11,7 @@ namespace Wisata.Controllers
 
         public DataAccess.Models.tempat_belanja GetModel(int id)
         {
+            
             using (var db = new OcphDbContext())
             {
                 var result = from b in db.tempat_belanjas.Where(O=>O.Id_tempat_belanja==id)
@@ -21,7 +22,7 @@ namespace Wisata.Controllers
                                  Id_tempat_belanja = b.Id_tempat_belanja,
                                  Alamat = b.Alamat,
                                  KecamatanName = k.Nama_Kecamatan,
-                                 Nama_Tempat_Belanja = b.Nama_Tempat_Belanja
+                                 Nama_Tempat_Belanja = b.Nama_Tempat_Belanja,Lintang=b.Lintang, Bujur=b.Bujur
                              };
                 return result.FirstOrDefault();
             }
@@ -53,52 +54,79 @@ namespace Wisata.Controllers
         // GET: Belanja
         public ActionResult Index()
         {
-            var result = this.GetViewModel();
-            return View(result);
+            if (Request.IsAuthenticated)
+            {
+                var result = this.GetViewModel();
+                return View(result);
+     
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
         }
 
         // GET: Belanja/Details/5
         public ActionResult Details(int id)
         {
-            var result = this.GetModel(id);
-            this.ViewBag.Kecamatans = this.GetKecamatans();
-            return View(result);
+            if (Request.IsAuthenticated)
+            {
+                var result = this.GetModel(id);
+                this.ViewBag.Kecamatans = this.GetKecamatans();
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
         }
 
         // GET: Belanja/Create
         public ActionResult Create()
         {
-            this.ViewBag.Kecamatans = this.GetKecamatans();
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                this.ViewBag.Kecamatans = this.GetKecamatans();
+                return View();
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+
         }
 
         // POST: Belanja/Create
         [HttpPost]
         public ActionResult Create(DataAccess.Models.tempat_belanja model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using (var db = new OcphDbContext())
+                try
                 {
-                    var Issaved = db.tempat_belanjas.Insert(model);
+                    using (var db = new OcphDbContext())
+                    {
+                        var Issaved = db.tempat_belanjas.Insert(model);
 
+                    }
+
+                    return RedirectToAction("Index");
                 }
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                this.ViewBag.Kecamatans = this.GetKecamatans();
-                return View();
-            }
+                catch
+                {
+                    this.ViewBag.Kecamatans = this.GetKecamatans();
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         // GET: Belanja/Edit/5
         public ActionResult Edit(int id)
         {
-            this.ViewBag.Kecamatans = this.GetKecamatans();
-            var result = this.GetModel(id);
-            return View(result);
+            if (Request.IsAuthenticated)
+            {
+                this.ViewBag.Kecamatans = this.GetKecamatans();
+                var result = this.GetModel(id);
+                return View(result);
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
             
         }
 
@@ -106,28 +134,36 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Edit(int id, DataAccess.Models.tempat_belanja model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using(var db = new OcphDbContext())
+                try
                 {
-                    var result = db.tempat_belanjas.Update(O => new { O.KecamatanID, O.Nama_Tempat_Belanja, O.Alamat }, model, O => O.Id_tempat_belanja == id);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        var result = db.tempat_belanjas.Update(O => new { O.KecamatanID, O.Lintang,O.Bujur, O.Nama_Tempat_Belanja, O.Alamat }, model, O => O.Id_tempat_belanja == id);
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                this.ViewBag.Kecamatans = this.GetKecamatans();
-                return View();
-            }
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    this.ViewBag.Kecamatans = this.GetKecamatans();
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         // GET: Belanja/Delete/5
         public ActionResult Delete(int id)
         {
-            this.ViewBag.Kecamatans = this.GetKecamatans();
-            var result = this.GetModel(id);
-            return View(result);
+            if (Request.IsAuthenticated)
+            {
+                this.ViewBag.Kecamatans = this.GetKecamatans();
+                var result = this.GetModel(id);
+                return View(result);
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
             
         }
 
@@ -135,19 +171,23 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using (var db = new OcphDbContext())
+                try
                 {
-                    var res = db.tempat_belanjas.Delete(O => O.Id_tempat_belanja == id);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        var res = db.tempat_belanjas.Delete(O => O.Id_tempat_belanja == id);
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
     }
 }

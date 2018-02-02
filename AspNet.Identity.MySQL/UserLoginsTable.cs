@@ -102,5 +102,22 @@ namespace AspNet.Identity.MySQL
 
             return logins;
         }
+
+        public string FindByUserIds(string userId)
+        {
+            List<UserLoginInfo> logins = new List<UserLoginInfo>();
+            string commandText = "Select * from UserLogins where UserId = @userId";
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { { "@userId", userId } };
+
+            var rows = _database.Query(commandText, parameters);
+            foreach (var row in rows)
+            {
+                var login = new UserLoginInfo(row["LoginProvider"], row["ProviderKey"]);
+                logins.Add(login);
+            }
+
+            return "";
+
+        }
     }
 }

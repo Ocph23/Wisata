@@ -12,12 +12,19 @@ namespace Wisata.Controllers
         // GET: /Kecamatan/
         public ActionResult Index()
         {
-            using (var db = new OcphDbContext())
+            if(Request.IsAuthenticated)
             {
-                var result = db.kecamatans.Select().ToList();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.kecamatans.Select().ToList();
+                    return View(result);
+                }
 
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
+            
 
         }
 
@@ -25,6 +32,7 @@ namespace Wisata.Controllers
         // GET: /Fasilitas/Details/5
         public ActionResult Details(int id)
         {
+            
             using (var db = new OcphDbContext())
             {
                 var result = db.kecamatans.Where(O => O.Id_Kecamatan== id).FirstOrDefault();
@@ -37,7 +45,11 @@ namespace Wisata.Controllers
         // GET: /Fasilitas/Create
         public ActionResult Create()
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -45,18 +57,26 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Create(DataAccess.Models.kecamatan model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using (var db = new OcphDbContext())
+                try
                 {
-                    var res = db.kecamatans.Insert(model);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        var res = db.kecamatans.Insert(model);
+                    }
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
+            else
             {
-                return View();
+                return RedirectToAction("NoHaveAccess", "ErrorHanler");
+            
             }
         }
 
@@ -64,11 +84,15 @@ namespace Wisata.Controllers
         // GET: /Fasilitas/Edit/5
         public ActionResult Edit(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.kecamatans.Where(O => O.Id_Kecamatan== id).FirstOrDefault();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.kecamatans.Where(O => O.Id_Kecamatan == id).FirstOrDefault();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
 
         }
 
@@ -77,30 +101,38 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Edit(int id, DataAccess.Models.kecamatan model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add update logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.kecamatans.Update(O => new { O.Nama_Kecamatan }, model, O => O.Id_Kecamatan== id);
+                    // TODO: Add update logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.kecamatans.Update(O => new { O.Nama_Kecamatan }, model, O => O.Id_Kecamatan == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
         // GET: /Fasilitas/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.kecamatans.Where(O => O.Id_Kecamatan== id).FirstOrDefault();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.kecamatans.Where(O => O.Id_Kecamatan == id).FirstOrDefault();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -108,19 +140,24 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add delete logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.kecamatans.Delete(O => O.Id_Kecamatan == id);
+                    // TODO: Add delete logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.kecamatans.Delete(O => O.Id_Kecamatan == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
     }
 }

@@ -19,7 +19,7 @@
             @Html.DisplayNameFor(model => model.User)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Password)
+            @Html.DisplayNameFor(model => model.Status)
         </th>
         <th></th>
     </tr>
@@ -33,12 +33,18 @@
             @Html.DisplayFor(modelItem => item.User)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Password)
+           @if (item.Status == 0)
+           { 
+                <div>Not Active</div>
+           }
+           else
+           {
+            <div>Active</div>
+           }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Delete", "Delete", new {  id=item.Id_User }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Change Status", "Change", new { id = item.Id_User, status=@item.Status }, new { @class = "btn btn-warning" })
         </td>
     </tr>
 }

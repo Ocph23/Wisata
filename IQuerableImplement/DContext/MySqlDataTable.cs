@@ -125,6 +125,7 @@ namespace DAL.DContext
             catch (Exception ex)
             {
 
+                
                 throw new Exception(ex.Message);
             }
             finally {

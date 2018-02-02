@@ -20,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.KecamatanID, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "nama_kecamatan"), new { @class = "form-control" })
+                @Html.DropDownListFor(O => O.KecamatanID, new SelectList(ViewBag.Kecamatans, "Id_Kecamatan", "Nama_Kecamatan"), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.KecamatanID)
             </div>
         </div>
@@ -72,7 +72,20 @@
                 @Html.ValidationMessageFor(model => model.Email)
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lintang, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Lintang)
+                @Html.ValidationMessageFor(model => model.Lintang)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bujur, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bujur)
+                @Html.ValidationMessageFor(model => model.Bujur)
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Website, new { @class = "control-label col-md-2" })
             <div class="col-md-10">

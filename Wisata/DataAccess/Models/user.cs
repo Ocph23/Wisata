@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,20 +8,24 @@ using System.Web;
 
 namespace Wisata.DataAccess.Models
 {
-    [TableName("user")]
+    [TableName("users")]
     public class user
     {
-        [PrimaryKey("Id_user")]
-        [DbColumn("Id_user")]
+        [PrimaryKey("Id")]
+        [DbColumn("Id")]
         [DisplayName("ID")]
-        public int Id_User { get; set; }
+        public string Id_User { get; set; }
 
-        [DbColumn("user")]
-        [DisplayName("USER")]
+        [DbColumn("UserName")]
+        [DisplayName("USER NAME")]
         public string User { get; set; }
 
-        [DbColumn("password")]
-        [DisplayName("PASSWORD")]
-        public string Password { get; set; }
+        [DbColumn("LockoutEnabled")]
+        [DisplayName("Status")]
+        public int Status { get; set; }
+
+
+
+
     }
 }

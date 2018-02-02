@@ -13,13 +13,20 @@ namespace Wisata.Controllers
         // GET: /Kuliner/
         public ActionResult Index()
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = from kul in db.kuliners.Select()
-                             join kec in db.kecamatans.Select() on kul.KecamatanID equals kec.Id_Kecamatan
-                             select new kuliner{ KecamatanID=kul.KecamatanID, Telpon=kul.Telpon, Pemilik=kul.Pemilik, Nama_Tempat_Kuliner =kul.Nama_Tempat_Kuliner, KulinerID=kul.KulinerID, KecamatanName=kec.Nama_Kecamatan};
-                return View(result);
+                using (var db = new OcphDbContext())
+                {
+                    var result = from kul in db.kuliners.Select()
+                                 join kec in db.kecamatans.Select() on kul.KecamatanID equals kec.Id_Kecamatan
+                                 select new kuliner { KecamatanID = kul.KecamatanID, Telpon = kul.Telpon, Pemilik = kul.Pemilik, Nama_Tempat_Kuliner = kul.Nama_Tempat_Kuliner, KulinerID = kul.KulinerID, KecamatanName = kec.Nama_Kecamatan };
+                    return View(result);
+                }
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
             }
+        
 
 
         }
@@ -44,12 +51,16 @@ namespace Wisata.Controllers
         // GET: /Kuliner/Create
         public ActionResult Create()
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.kecamatans.Select().ToList();
-                ViewBag.Kecamatans = result;
-            }
-            return View();
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.kecamatans.Select().ToList();
+                    ViewBag.Kecamatans = result;
+                }
+                return View();
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -57,32 +68,39 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Create(DataAccess.Models.kuliner model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using (var db = new OcphDbContext())
+                try
                 {
-                    var res = db.kuliners.Insert(model);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        var res = db.kuliners.Insert(model);
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch(Exception ex)
-            {
-                return View();
-            }
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
         // GET: /Kuliner/Edit/5
         public ActionResult Edit(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.kuliners.Where(O => O.KulinerID == id).FirstOrDefault();
-                ViewBag.Kecamatans = db.kecamatans.Select().ToList();
-                return View(result);
-            }
-
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.kuliners.Where(O => O.KulinerID == id).FirstOrDefault();
+                    ViewBag.Kecamatans = db.kecamatans.Select().ToList();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -90,30 +108,38 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Edit(int id, DataAccess.Models.kuliner model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add update logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.kuliners.Update(O => new { O.KulinerID,O.Nama_Tempat_Kuliner,O.KecamatanID,O.Pemilik,O.Telpon }, model, O => O.KulinerID == id);
+                    // TODO: Add update logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.kuliners.Update(O => new { O.KulinerID,O.Bujur,O.Lintang, O.Nama_Tempat_Kuliner, O.KecamatanID, O.Pemilik, O.Telpon }, model, O => O.KulinerID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
         // GET: /Kuliner/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.kuliners.Where(O => O.KulinerID == id).FirstOrDefault();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.kuliners.Where(O => O.KulinerID == id).FirstOrDefault();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
 
         //
@@ -121,19 +147,23 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add delete logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.kuliners.Delete(O => O.KulinerID == id);
+                    // TODO: Add delete logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.kuliners.Delete(O => O.KulinerID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
         }
     }
 }

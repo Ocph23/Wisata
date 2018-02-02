@@ -1,0 +1,81 @@
+﻿@model Wisata.DataAccess.Models.Artikel
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckeditor/config.js"></script>
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Artikel</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.Label("Objek Wisata", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(O => O.ObjekID, new SelectList(ViewBag.Objeks, "ObjekID", "Nama_Objek"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ObjekID)
+            </div>
+        </div>
+
+       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Judul, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Judul, htmlAttributes: new { @style = "width:500px;height:50px" })
+                @Html.ValidationMessageFor(model => model.Judul)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, htmlAttributes: new {@style="width:500px;height:70px" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Content,htmlAttributes: new {@id="contentid" })
+                @Html.ValidationMessageFor(model => model.Content)
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Author)
+        @Html.HiddenFor(model => model.Tanggal)
+
+       
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+<script type="text/javascript">
+    CKEDITOR.replace("contentid");
+    CKEDITOR.editorConfig = function (config) {
+        // Define changes to default configuration here. For example:
+        // config.language = 'fr';
+        // config.uiColor = '#AADC6E';
+    };
+
+</script>

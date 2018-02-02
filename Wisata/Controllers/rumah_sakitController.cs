@@ -12,21 +12,29 @@ namespace Wisata.Controllers
         // GET: /rumah_sakit/
         public ActionResult Index()
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = from rs in db.rumah_sakits.Select()
-                             join k in db.kecamatans.Select() on rs.KecamatanID equals k.Id_Kecamatan
-                             select new DataAccess.Models.rumah_sakit
-                             {
-                                 Alamat = rs.Alamat,
-                                 KecamatanName = k.Nama_Kecamatan,
-                                 KecamatanID = rs.KecamatanID,
-                                 Nama_Rumah_sakit = rs.Nama_Rumah_sakit,
-                                 Rumah_SakitID = rs.Rumah_SakitID
-                             };
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = from rs in db.rumah_sakits.Select()
+                                 join k in db.kecamatans.Select() on rs.KecamatanID equals k.Id_Kecamatan
+                                 select new DataAccess.Models.rumah_sakit
+                                 {
+                                     Alamat = rs.Alamat,
+                                     KecamatanName = k.Nama_Kecamatan,
+                                     KecamatanID = rs.KecamatanID,
+                                     Nama_Rumah_sakit = rs.Nama_Rumah_sakit,
+                                     Rumah_SakitID = rs.Rumah_SakitID
+                                 };
+                    return View(result);
+                }
 
+            }
+            else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
+            
 
         }
 
@@ -36,20 +44,25 @@ namespace Wisata.Controllers
         // GET: /Rumah_Sakit/Details/5
         public ActionResult Details(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = from rs in db.rumah_sakits.Where(O=>O.Rumah_SakitID==id)
-                             join k in db.kecamatans.Select() on rs.KecamatanID equals k.Id_Kecamatan
-                             select new DataAccess.Models.rumah_sakit
-                             {
-                                 Alamat = rs.Alamat,
-                                 KecamatanName = k.Nama_Kecamatan,
-                                 KecamatanID = rs.KecamatanID,
-                                 Nama_Rumah_sakit = rs.Nama_Rumah_sakit,
-                                 Rumah_SakitID = rs.Rumah_SakitID
-                             };
-                return View(result.FirstOrDefault());
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = from rs in db.rumah_sakits.Where(O => O.Rumah_SakitID == id)
+                                 join k in db.kecamatans.Select() on rs.KecamatanID equals k.Id_Kecamatan
+                                 select new DataAccess.Models.rumah_sakit
+                                 {
+                                     Alamat = rs.Alamat,
+                                     KecamatanName = k.Nama_Kecamatan,
+                                     KecamatanID = rs.KecamatanID,
+                                     Nama_Rumah_sakit = rs.Nama_Rumah_sakit,
+                                     Rumah_SakitID = rs.Rumah_SakitID
+                                 };
+                    return View(result.FirstOrDefault());
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
 
         }
 
@@ -68,8 +81,13 @@ namespace Wisata.Controllers
         // GET: /Rumah_Sakit/Create
         public ActionResult Create()
         {
-            ViewBag.Kecamatans = this.GetKecamatan();
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                ViewBag.Kecamatans = this.GetKecamatan();
+                return View();
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
         }
 
         //
@@ -77,31 +95,41 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Create(DataAccess.Models.rumah_sakit model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                using (var db = new OcphDbContext())
+                try
                 {
-                    var res = db.rumah_sakits.Insert(model);
-                }
+                    using (var db = new OcphDbContext())
+                    {
+                        var res = db.rumah_sakits.Insert(model);
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
         }
 
         //
         // GET: /Rumah_Sakit/Edit/5
         public ActionResult Edit(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = db.rumah_sakits.Where (O => O.Rumah_SakitID == id).FirstOrDefault();
-                ViewBag.Kecamatans = this.GetKecamatan();
-                return View(result);
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.rumah_sakits.Where(O => O.Rumah_SakitID == id).FirstOrDefault();
+                    ViewBag.Kecamatans = this.GetKecamatan();
+                    return View(result);
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
 
         }
 
@@ -110,39 +138,49 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Edit(int id, DataAccess.Models.rumah_sakit model)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add update logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.rumah_sakits.Update(O => new { O.Rumah_SakitID,O.Nama_Rumah_sakit,O.Alamat,O.KecamatanID }, model, O => O.Rumah_SakitID == id);
+                    // TODO: Add update logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.rumah_sakits.Update(O => new { O.Rumah_SakitID, O.Nama_Rumah_sakit, O.Alamat, O.KecamatanID ,O.Bujur,O.Lintang}, model, O => O.Rumah_SakitID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
         }
 
         //
         // GET: /Rumah_Sakit/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new OcphDbContext())
+            if (Request.IsAuthenticated)
             {
-                var result = from rs in db.rumah_sakits.Where(O => O.Rumah_SakitID == id)
-                             join k in db.kecamatans.Select() on rs.KecamatanID equals k.Id_Kecamatan
-                             select new DataAccess.Models.rumah_sakit
-                             {
-                                 Alamat = rs.Alamat,
-                                 KecamatanName = k.Nama_Kecamatan,
-                                 KecamatanID = rs.KecamatanID,
-                                 Nama_Rumah_sakit = rs.Nama_Rumah_sakit,
-                                 Rumah_SakitID = rs.Rumah_SakitID
-                             };
-                return View(result.FirstOrDefault());
-            }
+                using (var db = new OcphDbContext())
+                {
+                    var result = from rs in db.rumah_sakits.Where(O => O.Rumah_SakitID == id)
+                                 join k in db.kecamatans.Select() on rs.KecamatanID equals k.Id_Kecamatan
+                                 select new DataAccess.Models.rumah_sakit
+                                 {
+                                     Alamat = rs.Alamat,
+                                     KecamatanName = k.Nama_Kecamatan,
+                                     KecamatanID = rs.KecamatanID,
+                                     Nama_Rumah_sakit = rs.Nama_Rumah_sakit,
+                                     Rumah_SakitID = rs.Rumah_SakitID
+                                 };
+                    return View(result.FirstOrDefault());
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
         }
 
         //
@@ -150,19 +188,24 @@ namespace Wisata.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
             {
-                // TODO: Add delete logic here
-                using (var db = new OcphDbContext())
+                try
                 {
-                    db.rumah_sakits.Delete(O => O.Rumah_SakitID == id);
+                    // TODO: Add delete logic here
+                    using (var db = new OcphDbContext())
+                    {
+                        db.rumah_sakits.Delete(O => O.Rumah_SakitID == id);
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                catch
+                {
+                    return View();
+                }
+            }else
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            
         }
     }
 }

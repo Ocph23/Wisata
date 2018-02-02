@@ -29,7 +29,7 @@ namespace Wisata.DataAccess.Models
 
         [DbColumn("status_hotel")]
         [DisplayName("STATUS HOTEL")]
-        public status_hotel Status { get; set;}
+        public int Status { get; set;}
 
         public double Statuses { get; set; }
         [DbColumn("jumlah_kamar")]
@@ -55,6 +55,15 @@ namespace Wisata.DataAccess.Models
         [DbColumn("website")]
         [DisplayName("WEBSITE")]
         public string Website { get; set; }
+
+        [DbColumn("lintang")]
+        [DisplayName("Lintang")]
+        public string Lintang { get; set; }
+
+        [DbColumn("bujur")]
+        [DisplayName("bujur")]
+        public string Bujur { get; set; }
+
 
     }
 }

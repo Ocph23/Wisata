@@ -8,17 +8,14 @@ namespace Wisata.Models
 {
     public class ObjectWisataView
     {
-        private int id;
+       
 
         //public List<Fasilitas> Fasilitases { get; set; }
 
         public objek ObjectWisata { get; set; }
-
-
         public List<hotel> Hotels { get; set; }
-        public List<kuliner> Galeries { get; set; }
+        public List<FileUpload> Galeries { get; set; }
         public List<rumah_sakit> RumahSakits { get; set; }
-        public List<transportasi> Transportasi { get; set; }
         public List<tempat_belanja> TempatBelanjas { get; set; }
         public List<travel> Travels { get; set; }
         public List<kuliner> Kuliners { get; set; }
@@ -33,7 +30,7 @@ namespace Wisata.Models
                 {
                     //Fasilitases = db.Fasilitases.Where(O => O.ObjectId == obj.ObjekID);
                     Hotels = db.Hotels.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
-                    // Galeries = db.galeries.Where(O => O.ObjectID == obj.ObjekID);
+                    Galeries = db.Photos.Where(O => O.ObjeckId == obj.ObjekID).Take(1).ToList();
                     RumahSakits = db.rumah_sakits.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
                     TempatBelanjas = db.tempat_belanjas.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
                     Travels = db.travels.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
@@ -55,7 +52,17 @@ namespace Wisata.Models
                 {
                     //Fasilitases = db.Fasilitases.Where(O => O.ObjectId == obj.ObjekID);
                     Hotels = db.Hotels.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
-                    // Galeries = db.galeries.Where(O => O.ObjectID == obj.ObjekID);
+                   var res = from p in db.Photos.Where(O => O.ObjeckId == obj.ObjekID)
+                               select new FileUpload
+                               {
+                                   ObjeckId = p.ObjeckId,
+                                   DataFile =p.DataFile,
+                                   Id = p.Id,
+                                   FileName = p.FileName,
+                                   ApplicationFileType = p.ApplicationFileType,
+                                   CategoryFile = p.CategoryFile
+                               };
+                   Galeries = res.ToList();
                     RumahSakits = db.rumah_sakits.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
                     TempatBelanjas = db.tempat_belanjas.Where(O => O.KecamatanID == obj.KecamatanID).ToList();
                     Travels = db.travels.Where(O => O.KecamatanID == obj.KecamatanID).ToList();

@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,11 +40,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AspNet.Identity.MySQL\bin\Debug\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -152,9 +159,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministratorController.cs" />
+    <Compile Include="Controllers\ArtikelController.cs" />
     <Compile Include="Controllers\BelanjaController.cs" />
     <Compile Include="Controllers\DetailWisataController.cs" />
-    <Compile Include="Controllers\FasilitasController.cs" />
+    <Compile Include="Controllers\ErrorHanlerController.cs" />
+    <Compile Include="Controllers\ProfilController.cs" />
+    <Compile Include="DataAccess\Models\FileUpload.cs" />
+    <Compile Include="Controllers\FileUploadType.cs" />
     <Compile Include="Controllers\galeryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelController.cs" />
@@ -163,20 +174,18 @@
     <Compile Include="Controllers\ObjekController.cs" />
     <Compile Include="Controllers\pengunjungController.cs" />
     <Compile Include="Controllers\rumah_sakitController.cs" />
-    <Compile Include="Controllers\transportasiController.cs" />
     <Compile Include="Controllers\travelController.cs" />
     <Compile Include="Controllers\userController.cs" />
+    <Compile Include="DataAccess\Models\Artikel.cs" />
     <Compile Include="DataAccess\Models\DispalyName.cs" />
-    <Compile Include="DataAccess\Models\Fasilitas.cs" />
-    <Compile Include="DataAccess\Models\Galery.cs" />
     <Compile Include="DataAccess\Models\hotel.cs" />
+    <Compile Include="DataAccess\Models\ImageHelpers.cs" />
     <Compile Include="DataAccess\Models\kecamatan.cs" />
     <Compile Include="DataAccess\Models\kuliner.cs" />
     <Compile Include="DataAccess\Models\objek.cs" />
     <Compile Include="DataAccess\Models\pengunjung.cs" />
     <Compile Include="DataAccess\Models\rumah_sakit.cs" />
     <Compile Include="DataAccess\Models\tempat_belanja.cs" />
-    <Compile Include="DataAccess\Models\transportasi.cs" />
     <Compile Include="DataAccess\Models\travel.cs" />
     <Compile Include="DataAccess\Models\user.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,26 +194,120 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\enumcollection.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\MapObject.cs" />
     <Compile Include="Models\ObjectWisataView.cs" />
     <Compile Include="OcphDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Users.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Dashboar.css" />
+    <Content Include="Content\docs.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\mixins.css" />
+    <Content Include="Content\prettify.css" />
+    <Content Include="Content\sl-slide.css" />
     <Content Include="Content\star-rating.css" />
     <Content Include="Content\star-rating.min.css" />
+    <Content Include="Content\variables.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome\css\font-awesome.css" />
     <Content Include="fonts\font-awesome\css\font-awesome.min.css" />
     <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\10685559_4819933274431_5587890581382250971_n.jpg" />
+    <Content Include="Images\3194074054.jpg" />
+    <Content Include="Images\36684_1146078030346_5232480_n.jpg" />
+    <Content Include="Images\ads\ad1.png" />
+    <Content Include="Images\ads\ad2.png" />
+    <Content Include="Images\ads\ad3.png" />
+    <Content Include="Images\ads\ad4.png" />
+    <Content Include="Images\BAASEG.jpg" />
+    <Content Include="Images\cd270948c1b541c0b21ae01583e289b4.jpg" />
+    <Content Include="Images\Hamadi1.jpg" />
+    <Content Include="Images\ico\apple-touch-icon-114-precomposed.png" />
+    <Content Include="Images\ico\apple-touch-icon-144-precomposed.png" />
+    <Content Include="Images\ico\apple-touch-icon-57-precomposed.png" />
+    <Content Include="Images\ico\apple-touch-icon-72-precomposed.png" />
+    <Content Include="Images\ico\favicon.ico" />
+    <Content Include="Images\img00755-20131201-0515.jpg" />
+    <Content Include="Images\item1.jpg" />
+    <Content Include="Images\Jayapura-tahun-1955.jpg" />
+    <Content Include="Images\jayapura.jpg" />
     <Content Include="Images\JayapuraCity.jpg" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\Papua - Jayapura City - M.Randy2015Jayapura.jpg" />
+    <Content Include="Images\photo_2.jpg" />
+    <Content Include="Images\portfolio\full\item1.jpg" />
+    <Content Include="Images\portfolio\full\item2.jpg" />
+    <Content Include="Images\portfolio\full\item3.jpg" />
+    <Content Include="Images\portfolio\full\item4.jpg" />
+    <Content Include="Images\portfolio\full\item5.jpg" />
+    <Content Include="Images\portfolio\full\item6.jpg" />
+    <Content Include="Images\portfolio\thumb\item1.jpg" />
+    <Content Include="Images\portfolio\thumb\item2.jpg" />
+    <Content Include="Images\portfolio\thumb\item3.jpg" />
+    <Content Include="Images\portfolio\thumb\item4.jpg" />
+    <Content Include="Images\portfolio\thumb\item5.jpg" />
+    <Content Include="Images\portfolio\thumb\item6.jpg" />
+    <Content Include="Images\sample\avatar.jpg" />
+    <Content Include="Images\sample\avatar.png" />
+    <Content Include="Images\sample\blog1.jpg" />
+    <Content Include="Images\sample\cAvatar.png" />
+    <Content Include="Images\sample\cAvatar1.jpg" />
+    <Content Include="Images\sample\cAvatar2.jpg" />
+    <Content Include="Images\sample\cAvatar3.jpg" />
+    <Content Include="Images\sample\clients\client1.png" />
+    <Content Include="Images\sample\clients\client2.png" />
+    <Content Include="Images\sample\clients\client3.png" />
+    <Content Include="Images\sample\clients\client4.png" />
+    <Content Include="Images\sample\gallery\img1.jpg" />
+    <Content Include="Images\sample\gallery\img2.jpg" />
+    <Content Include="Images\sample\gallery\img3.jpg" />
+    <Content Include="Images\sample\gallery\img4.jpg" />
+    <Content Include="Images\sample\gallery\img5.jpg" />
+    <Content Include="Images\sample\gallery\img6.jpg" />
+    <Content Include="Images\sample\gallery\img7.jpg" />
+    <Content Include="Images\sample\gallery\img8.jpg" />
+    <Content Include="Images\sample\img-team-thumb1.png" />
+    <Content Include="Images\sample\img-team-thumb2.png" />
+    <Content Include="Images\sample\img-team-thumb3.png" />
+    <Content Include="Images\sample\img-team-thumb4.png" />
+    <Content Include="Images\sample\img-testimonial-1.png" />
+    <Content Include="Images\sample\img-testimonial-2.png" />
+    <Content Include="Images\sample\img1.jpg" />
+    <Content Include="Images\sample\img2.jpg" />
+    <Content Include="Images\sample\index.html" />
+    <Content Include="Images\sample\map.jpg" />
+    <Content Include="Images\sample\slider\img1.png" />
+    <Content Include="Images\sample\slider\img2.png" />
+    <Content Include="Images\sample\slider\img3.png" />
+    <Content Include="Images\sample\team1.jpg" />
+    <Content Include="Images\sample\team2.jpg" />
+    <Content Include="Images\sample\team3.jpg" />
+    <Content Include="Images\sample\team4.jpg" />
+    <Content Include="Images\sample\test.jpg" />
+    <Content Include="Images\struktur.jpg" />
+    <Content Include="Images\waterway-canal-icon.png" />
+    <Content Include="Images\welcome1.jpg" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
@@ -253,6 +356,23 @@
     <Content Include="fonts\font-awesome\scss\_spinning.scss" />
     <Content Include="fonts\font-awesome\scss\_stacked.scss" />
     <Content Include="fonts\font-awesome\scss\_variables.scss" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Content\.DS_Store" />
+    <Content Include="Content\main.less" />
+    <Content Include="Content\mixins.less" />
+    <Content Include="Content\variables.less" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Images\.DS_Store" />
+    <Content Include="Images\sample\.DS_Store" />
+    <Content Include="Images\sample\clients\.DS_Store" />
+    <Content Include="Images\sample\clients\Thumbs.db" />
+    <Content Include="Images\sample\gallery\Thumbs.db" />
+    <None Include="Properties\PublishProfiles\wisatajayapura - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\wisatajayapura - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -625,23 +745,42 @@
     <Content Include="Scripts\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Scripts\ckeditor\skins\moono\images\spinner.gif" />
     <Content Include="Scripts\ckeditor\styles.js" />
+    <Content Include="Scripts\coin-slider.min.js" />
+    <Content Include="Scripts\cufon-titillium-250.js" />
+    <Content Include="Scripts\cufon-yui.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.ba-cond.min.js" />
+    <Content Include="Scripts\jquery.slitslider.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\script.js" />
     <Content Include="Scripts\star-rating.js" />
     <Content Include="Scripts\star-rating.min.js" />
+    <Content Include="Scripts\twitter-bootstrap-hover-dropdown.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\BAASEG.jpg" />
     <Content Include="Views\index.html">
       <BrowseToURL>~/Views/index.html</BrowseToURL>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -666,10 +805,6 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\transportasi\Details.cshtml" />
-    <Content Include="Views\transportasi\Create.cshtml" />
-    <Content Include="Views\transportasi\Edit.cshtml" />
-    <Content Include="Views\transportasi\Delete.cshtml" />
     <Content Include="Views\rumah_sakit\Index.cshtml" />
     <Content Include="Views\rumah_sakit\Details.cshtml" />
     <Content Include="Views\rumah_sakit\Create.cshtml" />
@@ -687,10 +822,6 @@
     <Content Include="Views\user\Delete.cshtml" />
     <Content Include="Views\Hotel\Index.cshtml" />
     <Content Include="Views\Hotel\Create.cshtml" />
-    <Content Include="Views\Fasilitas\Index.cshtml" />
-    <Content Include="Views\Fasilitas\Create.cshtml" />
-    <Content Include="Views\Fasilitas\Details.cshtml" />
-    <Content Include="Views\Fasilitas\Edit.cshtml" />
     <Content Include="Views\pengunjung\Index.cshtml" />
     <Content Include="Views\pengunjung\Details.cshtml" />
     <Content Include="Views\pengunjung\Create.cshtml" />
@@ -707,13 +838,7 @@
     <Content Include="Views\Objek\Delete.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\DetailWisata\Index.cshtml" />
-    <Content Include="Views\transportasi\Index.cshtml" />
-    <Content Include="Views\galery\Index.cshtml" />
-    <Content Include="Views\galery\Details.cshtml" />
     <Content Include="Views\galery\Create.cshtml" />
-    <Content Include="Views\galery\Edit.cshtml" />
-    <Content Include="Views\galery\Delete.cshtml" />
-    <Content Include="Views\Fasilitas\Delete.cshtml" />
     <Content Include="Views\Hotel\Details.cshtml" />
     <Content Include="Views\Hotel\Edit.cshtml" />
     <Content Include="Views\Hotel\Delete.cshtml" />
@@ -729,6 +854,17 @@
     <Content Include="Views\Belanja\Create.cshtml" />
     <Content Include="Views\Belanja\Edit.cshtml" />
     <Content Include="Views\Belanja\Delete.cshtml" />
+    <Content Include="Views\Artikel\Index.cshtml" />
+    <Content Include="Views\Artikel\Create.cshtml" />
+    <Content Include="Views\galery\Index.cshtml" />
+    <Content Include="Views\Home\ViewObjekWisata.cshtml" />
+    <Content Include="Views\Artikel\Details.cshtml" />
+    <Content Include="Views\Artikel\Delete.cshtml" />
+    <Content Include="Views\Artikel\Edit.cshtml" />
+    <Content Include="Views\ErrorHanler\NotHaveAccess.cshtml" />
+    <Content Include="Views\Profil\VisiMisi.cshtml" />
+    <Content Include="Views\Profil\Sejarah.cshtml" />
+    <Content Include="Views\Profil\StrukturOrganisasi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -737,7 +873,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

@@ -31,5 +31,13 @@ namespace Wisata.DataAccess.Models
         public string Alamat { get; set; }
 
 
+        [DbColumn("lintang")]
+        [DisplayName("Lintang")]
+        public string Lintang { get; set; }
+
+
+        [DbColumn("bujur")]
+        [DisplayName("Bujur")]
+        public string Bujur { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Wisata.DataAccess.Models;
 
 namespace Wisata.Controllers
 {
@@ -12,13 +14,76 @@ namespace Wisata.Controllers
         // GET: /galery/
         public ActionResult Index()
         {
+            if (Request.IsAuthenticated)
+            {
+                using (var db = new OcphDbContext())
+                {
+                    var result = db.objeks.Select();
+                    ViewBag.Objeks = result.ToList();
+                    return View();
+                }
+            }else
+            {
+                return RedirectToAction("NotHaveAccess", "ErrorHanler");
+            }
+           
+
+
+        }
+        public ActionResult UploadPhoto(FileUpload upload,HttpPostedFileBase file)
+        {
+            bool isSuccess = true;
             using (var db = new OcphDbContext())
             {
-                var result = db.galeries.Select().ToList();
-                return View(result);
+                try
+                {
+                    MemoryStream target = new MemoryStream();
+                    file.InputStream.CopyTo(target);
+                    byte[] data1 = target.ToArray();
+
+                    byte[] data = data1;//DataAccess.Models.ImageHelpers.CreateThumbnail(data1,1024);
+
+                    upload.ApplicationFileType = file.ContentType;
+                    upload.CategoryFile = FileUploadType.Image;
+                    upload.DataFile = data;
+                    upload.FileName = file.FileName;
+
+                    var Inserted = db.Photos.Insert(upload);
+                    ViewBag.IsSaved = false;
+                    if (Inserted)
+                    {
+                         isSuccess = true;
+                    }
+                    else
+                        isSuccess = false;
+                }
+                catch (Exception)
+                {
+
+                    isSuccess = false;
+                }
+
+                if (isSuccess)
+                {
+                    return Json(new { Message = file.FileName});
+                }
+                else
+                {
+                    return Json(new { Message = "Error in saving file" });
+                }
+              
             }
+        }
 
-
+        [HttpGet]
+        public JsonResult GetPictures(int id)
+        {
+            using (var db = new OcphDbContext())
+            {
+                var result = from data in db.Photos.Where(O => O.ObjeckId == id)
+                             select new { Id = data.Id, FileData = Convert.ToBase64String(ImageHelpers.CreateThumbnail(data.DataFile,300,300)) };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
 
         //
@@ -27,8 +92,7 @@ namespace Wisata.Controllers
         {
             using (var db = new OcphDbContext())
             {
-                var result = db.galeries.Where(O => O.GaleryID == id).FirstOrDefault();
-                return View(result);
+                return View();
             }
 
         }
@@ -37,19 +101,23 @@ namespace Wisata.Controllers
         // GET: /Galery/Create
         public ActionResult Create()
         {
-            return View();
+            using (var db = new OcphDbContext())
+            {
+                var result = db.objeks.Select();
+                ViewBag.Objeks = result.ToList();
+                return View();
+            }
         }
 
         //
         // POST: /Transportasi/Create
         [HttpPost]
-        public ActionResult Create(DataAccess.Models.Galery model)
+        public ActionResult Create(FormCollection model)
         {
             try
             {
                 using (var db = new OcphDbContext())
                 {
-                    var res = db.galeries.Insert(model);
                 }
 
                 return RedirectToAction("Index");
@@ -66,8 +134,7 @@ namespace Wisata.Controllers
         {
             using (var db = new OcphDbContext())
             {
-                var result = db.galeries.Where(O => O.GaleryID == id).FirstOrDefault();
-                return View(result);
+                return View();
             }
 
         }
@@ -75,14 +142,13 @@ namespace Wisata.Controllers
         //
         // POST: /Galery/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, DataAccess.Models.Galery model)
+        public ActionResult Edit(int id, FormCollection form)
         {
             try
             {
                 // TODO: Add update logic here
                 using (var db = new OcphDbContext())
                 {
-                    db.galeries.Update(O => new { O.GaleryID,O.ObjectID,O.Foto,O.Deskripsi }, model, O => O.GaleryID == id);
                 }
                 return RedirectToAction("Index");
             }
@@ -98,8 +164,8 @@ namespace Wisata.Controllers
         {
             using (var db = new OcphDbContext())
             {
-                var result = db.galeries.Where(O => O.GaleryID == id).FirstOrDefault();
-                return View(result);
+                db.Photos.Delete(O => O.Id == id);
+                return RedirectToAction("Index");
             }
         }
 
@@ -113,7 +179,6 @@ namespace Wisata.Controllers
                 // TODO: Add delete logic here
                 using (var db = new OcphDbContext())
                 {
-                    db.galeries.Delete(O => O.GaleryID == id);
                 }
                 return RedirectToAction("Index");
             }
